@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8" />
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      height: 100%;
+      font-family: sans-serif;
+      text-align: center;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .container {
+      display: flex;
+      gap: 6px;
+      font-weight: bold;
+      font-size: 18px;
+    }
+
+    .fixa {
+      background: linear-gradient(to right, #f9d29d, #f28c8c);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .data-animada {
+      display: inline-block;
+      min-width: 80px;
+      background: linear-gradient(to right, #f9d29d, #f28c8c);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      transition: opacity 0.4s ease;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <span class="fixa">Pele sem rugas em</span>
+    <span class="data-animada" id="data">Carregando...</span>
+  </div>
+
+  <script>
+    (function () {
+      const hoje = new Date();
+      const dataAlvo = new Date();
+      dataAlvo.setDate(hoje.getDate() + 30);
+
+      const datas = [];
+      for (let i = 0; i <= 7; i++) {
+        const data = new Date(dataAlvo);
+        data.setDate(dataAlvo.getDate() - i); // começa em dataAlvo, volta até -7 dias
+
+        const opcoes = { day: 'numeric', month: 'long' };
+        let dataFormatada = data.toLocaleDateString('pt-BR', opcoes);
+        dataFormatada = dataFormatada.charAt(0).toUpperCase() + dataFormatada.slice(1);
+        datas.push(dataFormatada);
+      }
+
+      const span = document.getElementById('data');
+      let i = 0;
+
+      function mostrarProximaData() {
+        if (i >= datas.length) return; // quando terminar, para
+        span.style.opacity = 0;
+        setTimeout(() => {
+          span.textContent = datas[i];
+          span.style.opacity = 1;
+          i++;
+          setTimeout(mostrarProximaData, 1000); // 1 segundo por data
+        }, 200); // tempo da transição de opacidade
+      }
+
+      mostrarProximaData();
+    })();
+  </script>
+</body>
+</html>
