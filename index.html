@@ -20,6 +20,10 @@
       gap: 6px;
       font-weight: bold;
       font-size: 24px;
+      white-space: nowrap;         /* Impede quebra de linha */
+      overflow-x: auto;            /* Barra de rolagem horizontal se necessário */
+      max-width: 100vw;            /* Evita que o container ultrapasse a largura da tela */
+      -webkit-overflow-scrolling: touch; /* Rolagem suave no iOS */
     }
 
     .fixa {
@@ -53,7 +57,7 @@
       const datas = [];
       for (let i = 0; i <= 7; i++) {
         const data = new Date(dataAlvo);
-        data.setDate(dataAlvo.getDate() - i); // começa em dataAlvo, volta até -7 dias
+        data.setDate(dataAlvo.getDate() - i);
 
         const opcoes = { day: 'numeric', month: 'long' };
         let dataFormatada = data.toLocaleDateString('pt-BR', opcoes);
@@ -65,14 +69,14 @@
       let i = 0;
 
       function mostrarProximaData() {
-        if (i >= datas.length) return; // quando terminar, para
+        if (i >= datas.length) return;
         span.style.opacity = 0;
         setTimeout(() => {
           span.textContent = datas[i];
           span.style.opacity = 1;
           i++;
-          setTimeout(mostrarProximaData, 700); // 1 segundo por data
-        }, 200); // tempo da transição de opacidade
+          setTimeout(mostrarProximaData, 700);
+        }, 200);
       }
 
       mostrarProximaData();
